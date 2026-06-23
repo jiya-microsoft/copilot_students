@@ -59,7 +59,7 @@ button, input {
 }
 
 .overview-header {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .overview-header h1 {
@@ -72,6 +72,108 @@ button, input {
 .overview-header p {
   color: var(--muted);
   font-size: 16px;
+}
+
+/* Calendar Styles */
+.calendar-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 40px;
+  max-width: 1400px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.calendar-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 12px;
+}
+
+.calendar-nav button {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.calendar-nav button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 8px;
+}
+
+.calendar-day {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 8px;
+  min-height: 100px;
+  position: relative;
+  font-size: 12px;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+}
+
+.calendar-day-number {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.calendar-event {
+  background: rgba(59, 124, 255, 0.1);
+  color: var(--blue);
+  padding: 4px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-event.calculus {
+  background: rgba(255, 122, 0, 0.1);
+  color: var(--orange);
+}
+
+.calendar-event.matrices {
+  background: rgba(17, 191, 66, 0.1);
+  color: var(--green);
 }
 
 .notebooks-grid {
@@ -121,6 +223,15 @@ button, input {
   justify-content: space-between;
   font-size: 12px;
   color: var(--muted-2);
+}
+
+.empty-notebook-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: var(--muted);
+  font-size: 16px;
 }
 
 /* Notebook View */
@@ -901,6 +1012,13 @@ button, input {
   .notebooks-grid {
     grid-template-columns: 1fr;
   }
+  .calendar-grid {
+    grid-template-columns: repeat(7, 1fr);
+  }
+  .calendar-day {
+    min-height: 80px;
+    font-size: 11px;
+  }
 }
 </style>
 </head>
@@ -911,6 +1029,19 @@ button, input {
       <h1>My Notebooks</h1>
       <p>Select a notebook to view your study materials and progress</p>
     </div>
+
+    <!-- Calendar Section -->
+    <div class="calendar-section">
+      <div class="calendar-header">
+        <h2 id="calendarMonth">September 2026</h2>
+        <div class="calendar-nav">
+          <button onclick="previousMonth()">← Previous</button>
+          <button onclick="nextMonth()">Next →</button>
+        </div>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
     <div class="notebooks-grid">
       <div class="notebook-card" onclick="openNotebook('18213', 'Introduction to Computer Systems')">
         <div class="notebook-icon">📚</div>
@@ -921,13 +1052,13 @@ button, input {
           <span>Grade: 85.2% B</span>
         </div>
       </div>
-      <div class="notebook-card" onclick="openNotebook('15213', 'Computer Systems (Honors)')">
-        <div class="notebook-icon">⭐</div>
-        <h3>Computer Systems (Honors)</h3>
-        <p>15-213 • Spring 2026 - Advanced topics in systems programming with focus on low-level implementation details.</p>
+      <div class="notebook-card" onclick="openNotebook('18900', 'Calculus in 3D')">
+        <div class="notebook-icon">📐</div>
+        <h3>Calculus in 3D</h3>
+        <p>18-900 • Spring 2026 - Advanced calculus covering multivariable functions, vector calculus, and integration in 3D space.</p>
         <div class="notebook-meta">
-          <span>Last updated: June 20, 2026</span>
-          <span>Grade: 92.0% A</span>
+          <span>Last updated: June 21, 2026</span>
+          <span>Grade: 91.0% A-</span>
         </div>
       </div>
       <div class="notebook-card" onclick="openNotebook('21241', 'Matrices and Linear Transformations')">
@@ -982,7 +1113,7 @@ button, input {
       </aside>
 
       <main class="main-wrap">
-        <div class="main-content">
+        <div class="main-content" id="notebookContent">
           <header class="topbar">
             <button class="back-btn" onclick="goBackToOverview()">← Back</button>
             <h1>Overview</h1>
@@ -1149,7 +1280,133 @@ Last-minute Tips...</pre>
   </div>
 
   <script>
+    let currentMonth = 8; // September (0-indexed)
+    let currentYear = 2026;
+
+    // Calendar events data
+    const events = {
+      '2026-09-08': ['Calculus Exam'], // 2nd Tuesday
+      '2026-09-17': ['Computer Systems Exam'], // 3rd Thursday
+      '2026-09-25': ['Matrices Quiz'], // Last Friday
+    };
+
+    // Recurring events
+    function getRecurringEvents(date) {
+      const day = date.getDay();
+      const events = [];
+      
+      // Every Saturday: Computer Systems programming due
+      if (day === 6) events.push('CS programming due');
+      // Every Monday: computer systems written due
+      if (day === 1) events.push('CS written due');
+      // Every Thursday: calculus problem set due and matrices problem set due
+      if (day === 4) {
+        events.push('Calc problem set due');
+        events.push('Matrices problem set due');
+      }
+      
+      return events;
+    }
+
+    function renderCalendar() {
+      const calendarGrid = document.getElementById('calendarGrid');
+      calendarGrid.innerHTML = '';
+
+      // Add day headers
+      const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      dayHeaders.forEach(day => {
+        const header = document.createElement('div');
+        header.className = 'calendar-day-header';
+        header.textContent = day;
+        calendarGrid.appendChild(header);
+      });
+
+      // Get first day of month and number of days
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      // Add empty cells for days before month starts
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'calendar-day empty';
+        calendarGrid.appendChild(empty);
+      }
+
+      // Add days of month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayEl = document.createElement('div');
+        dayEl.className = 'calendar-day';
+        
+        const dayNumber = document.createElement('div');
+        dayNumber.className = 'calendar-day-number';
+        dayNumber.textContent = day;
+        dayEl.appendChild(dayNumber);
+
+        // Check for specific events
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const specificEvents = events[dateStr] || [];
+
+        // Check for recurring events
+        const date = new Date(currentYear, currentMonth, day);
+        const recurringEvents = getRecurringEvents(date);
+
+        // Combine all events
+        const allEvents = [...specificEvents, ...recurringEvents];
+
+        allEvents.forEach(event => {
+          const eventEl = document.createElement('div');
+          eventEl.className = 'calendar-event';
+          
+          // Add specific classes for styling
+          if (event.includes('Calculus') || event.includes('Calc')) {
+            eventEl.classList.add('calculus');
+          } else if (event.includes('Matrices')) {
+            eventEl.classList.add('matrices');
+          }
+          
+          eventEl.textContent = event;
+          dayEl.appendChild(eventEl);
+        });
+
+        calendarGrid.appendChild(dayEl);
+      }
+
+      // Update month display
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+    }
+
+    function previousMonth() {
+      if (currentMonth === 0) {
+        currentMonth = 11;
+        currentYear--;
+      } else {
+        currentMonth--;
+      }
+      renderCalendar();
+    }
+
+    function nextMonth() {
+      if (currentMonth === 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else {
+        currentMonth++;
+      }
+      renderCalendar();
+    }
+
     function openNotebook(id, title) {
+      const notebookContent = document.getElementById('notebookContent');
+      
+      // Check if it's an empty notebook
+      if (id !== '18213') {
+        notebookContent.innerHTML = '<div class="empty-notebook-message">This notebook is empty. Come back later!</div>';
+      } else {
+        // Show the full content for the main notebook
+        notebookContent.style.display = 'block';
+      }
+
       document.getElementById('notebookTitle').textContent = id;
       document.getElementById('overviewPage').classList.remove('active');
       document.getElementById('notebookPage').classList.add('active');
@@ -1168,6 +1425,9 @@ Last-minute Tips...</pre>
       const appShell = document.getElementById('appShell');
       appShell.classList.toggle('full');
     }
+
+    // Initial calendar render
+    renderCalendar();
   </script>
 </body>
 </html>
