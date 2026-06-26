@@ -79,9 +79,12 @@ button, input {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 40px;
-  max-width: 1400px;
+  padding: 18px;
+  margin-bottom: 30px;
+  max-width: 1050px;
+  transform: scale(0.75);
+  transform-origin: top left;
+  margin-bottom: -75px;
 }
 
 .calendar-header {
@@ -999,435 +1002,494 @@ button, input {
   .main-content {
     padding: 26px 16px 50px;
   }
-  .material-grid, .grade-grid {
-    grid-template-columns: 1fr;
-  }
-  .timeline-line {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .timeline-line::before {
-    display: none;
-  }
-  .notebooks-grid {
-    grid-template-columns: 1fr;
-  }
-  .calendar-grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-  .calendar-day {
-    min-height: 80px;
-    font-size: 11px;
-  }
 }
 </style>
 </head>
 <body>
-  <!-- Overview Page -->
-  <div id="overviewPage" class="page active overview-page">
-    <div class="overview-header">
-      <h1>My Notebooks</h1>
-      <p>Select a notebook to view your study materials and progress</p>
-    </div>
+<!-- Overview Page -->
+<div class="page overview-page active">
+  <div class="overview-header">
+    <h1>📚 Copilot Notebooks</h1>
+    <p>Your personalized study companion</p>
+  </div>
 
-    <!-- Calendar Section -->
-    <div class="calendar-section">
-      <div class="calendar-header">
-        <h2 id="calendarMonth">September 2026</h2>
-        <div class="calendar-nav">
-          <button onclick="previousMonth()">← Previous</button>
-          <button onclick="nextMonth()">Next →</button>
-        </div>
+  <div class="calendar-section">
+    <div class="calendar-header">
+      <h2>📅 January 2025</h2>
+      <div class="calendar-nav">
+        <button>← Previous</button>
+        <button>Next →</button>
       </div>
-      <div class="calendar-grid" id="calendarGrid"></div>
     </div>
+    <div class="calendar-grid">
+      <!-- Day headers -->
+      <div class="calendar-day-header">Sun</div>
+      <div class="calendar-day-header">Mon</div>
+      <div class="calendar-day-header">Tue</div>
+      <div class="calendar-day-header">Wed</div>
+      <div class="calendar-day-header">Thu</div>
+      <div class="calendar-day-header">Fri</div>
+      <div class="calendar-day-header">Sat</div>
 
-    <div class="notebooks-grid">
-      <div class="notebook-card" onclick="openNotebook('18213', 'Introduction to Computer Systems')">
-        <div class="notebook-icon">📚</div>
-        <h3>Introduction to Computer Systems</h3>
-        <p>18-213 • Spring 2026 - Comprehensive study guide covering system fundamentals, assembly, memory, and concurrent systems.</p>
-        <div class="notebook-meta">
-          <span>Last updated: June 23, 2026</span>
-          <span>Grade: 85.2% B</span>
-        </div>
+      <!-- Empty slots for days before month starts -->
+      <div class="calendar-day empty"></div>
+      <div class="calendar-day empty"></div>
+      <div class="calendar-day empty"></div>
+
+      <!-- January 2025 starts on Wednesday -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">1</div>
       </div>
-      <div class="notebook-card" onclick="openNotebook('18900', 'Calculus in 3D')">
-        <div class="notebook-icon">📐</div>
-        <h3>Calculus in 3D</h3>
-        <p>18-900 • Spring 2026 - Advanced calculus covering multivariable functions, vector calculus, and integration in 3D space.</p>
-        <div class="notebook-meta">
-          <span>Last updated: June 21, 2026</span>
-          <span>Grade: 91.0% A-</span>
-        </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">2</div>
+        <div class="calendar-event calculus">Calculus HW Due</div>
       </div>
-      <div class="notebook-card" onclick="openNotebook('21241', 'Matrices and Linear Transformations')">
-        <div class="notebook-icon">🔢</div>
-        <h3>Matrices and Linear Transformations</h3>
-        <p>21-241 • Spring 2026 - Linear algebra fundamentals, matrix operations, eigenvalues, and applications.</p>
-        <div class="notebook-meta">
-          <span>Last updated: June 19, 2026</span>
-          <span>Grade: 88.5% B+</span>
-        </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">3</div>
       </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">4</div>
+        <div class="calendar-event matrices">Linear Algebra Quiz</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">5</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">6</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">7</div>
+        <div class="calendar-event">Lecture Review</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">8</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">9</div>
+        <div class="calendar-event calculus">Calculus Exam Prep</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">10</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">11</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">12</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">13</div>
+        <div class="calendar-event matrices">Linear Algebra HW</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">14</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">15</div>
+        <div class="calendar-event calculus">Calculus Midterm</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">16</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">17</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">18</div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">19</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">20</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">21</div>
+        <div class="calendar-event matrices">Linear Algebra Exam</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">22</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">23</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">24</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">25</div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">26</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">27</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">28</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">29</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">30</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">31</div>
+      </div>
+      <div class="calendar-day empty"></div>
     </div>
   </div>
 
-  <!-- Notebook Page -->
-  <div id="notebookPage" class="page">
-    <div class="app-shell full" id="appShell">
-      <aside class="icon-rail">
-        <div class="rail-icon active" onclick="togglePanel()">▣</div>
-        <div class="rail-icon">▦</div>
-        <div class="rail-icon">□</div>
-        <div class="rail-icon">▱</div>
-        <div class="rail-spacer"></div>
-        <div class="rail-icon">⚙</div>
-      </aside>
+  <div class="notebooks-grid" id="notebooksGrid">
+    <!-- Notebooks will be generated here -->
+  </div>
+</div>
 
-      <aside class="sidebar">
-        <div class="study-title" onclick="goBackToOverview()"><span class="chip-icon">▣</span><span id="notebookTitle">18213</span> study <span style="margin-left:auto;color:#999">›</span></div>
-        <nav class="nav-list">
-          <div class="nav-item active">▦ Overview</div>
-          <div class="nav-item">＋ Create</div>
-          <div class="nav-item">▧ Reference</div>
-        </nav>
+<!-- Notebook Pages -->
+<div class="page notebook-page" id="notebook18213"></div>
+<div class="page notebook-page" id="notebook18214"></div>
+<div class="page notebook-page" id="notebook18215"></div>
 
-        <div class="nav-section-title">Created Content</div>
-        <div class="nav-link">▧ Document Creation from...</div>
-        <div class="nav-link">▧ study_plan</div>
+<script>
+  const notebooks = [
+    {
+      id: '18213',
+      icon: '📐',
+      title: 'Calculus I',
+      description: 'Limits, derivatives, and integrals',
+      lastUpdated: '2 hours ago',
+      items: 42
+    },
+    {
+      id: '18214',
+      icon: '🔢',
+      title: 'Linear Algebra',
+      description: 'Matrices, vectors, and transformations',
+      lastUpdated: '1 day ago',
+      items: 38
+    },
+    {
+      id: '18215',
+      icon: '∫',
+      title: 'Advanced Calculus',
+      description: 'Multivariable calculus and series',
+      lastUpdated: '3 days ago',
+      items: 25
+    }
+  ];
 
-        <div class="nav-section-title">References</div>
-        <div class="nav-link">Beta 1</div>
-        <div class="nav-link">18-ecf-sign</div>
-        <div class="nav-link">15-malloc-basic</div>
-        <div class="nav-link">Experimentation Playbook</div>
-        <div class="nav-link">midterm-s26-sol</div>
-        <div class="nav-link">24-sync-advanced</div>
-        <div class="nav-link">Introduction to Computer Sy...</div>
+  function renderNotebooksGrid() {
+    const grid = document.getElementById('notebooksGrid');
+    grid.innerHTML = notebooks.map(nb => `
+      <div class="notebook-card" onclick="openNotebook('${nb.id}')">
+        <div class="notebook-icon">${nb.icon}</div>
+        <h3>${nb.title}</h3>
+        <p>${nb.description}</p>
+        <div class="notebook-meta">
+          <span>${nb.items} items</span>
+          <span>${nb.lastUpdated}</span>
+        </div>
+      </div>
+    `).join('');
+  }
 
-        <div class="nav-section-title">Suggested References</div>
-        <div class="nav-link">GPRID – NB Overview Sugge...</div>
-        <div class="nav-link">GPRID – NB Overview Sugge...</div>
-        <div class="nav-link">Overview Page – Reframing ...</div>
-      </aside>
+  function openNotebook(id) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    
+    // Show selected notebook
+    const notebookPage = document.getElementById(`notebook${id}`);
+    notebookPage.classList.add('active');
+    
+    // Render notebook content based on ID
+    if (id === '18213') {
+      renderCalculus1Notebook();
+    } else if (id === '18214') {
+      renderLinearAlgebraNotebook();
+    } else if (id === '18215') {
+      renderAdvancedCalculusNotebook();
+    }
+  }
 
-      <main class="main-wrap">
-        <div class="main-content" id="notebookContent">
-          <header class="topbar">
-            <button class="back-btn" onclick="goBackToOverview()">← Back</button>
-            <h1>Overview</h1>
-            <div class="topbar-meta">June 4, 2026 &nbsp; ···</div>
-          </header>
+  function renderCalculus1Notebook() {
+    document.getElementById('notebook18213').innerHTML = `
+      <div class="app-shell">
+        <div class="icon-rail">
+          <div class="rail-icon" onclick="goHome()">📊</div>
+          <div class="rail-icon active">📖</div>
+          <div class="rail-icon">💬</div>
+          <div class="rail-spacer"></div>
+          <div class="rail-icon">⚙️</div>
+        </div>
 
-          <section class="card tasks-card">
-            <div class="source-tags">
-              <span class="source-tag canvas">◉ Canvas</span>
-              <span class="source-tag gradescope">▤ Gradescope</span>
+        <div class="sidebar">
+          <div class="study-title">
+            <span class="chip-icon">📍</span>
+            18213 study
+          </div>
+          <div class="nav-list">
+            <div class="nav-item active">📋 Overview</div>
+            <div class="nav-item">📝 Create</div>
+            <div class="nav-item">📚 Reference</div>
+          </div>
+          <div class="nav-section-title">CREATED CONTENT</div>
+          <div class="nav-link">Document Creation from...</div>
+          <div class="nav-link">study_plan</div>
+          <div class="nav-section-title">REFERENCES</div>
+          <div class="nav-link">Beta 1</div>
+          <div class="nav-link">18-ecf-sign</div>
+          <div class="nav-link">15-malloc-basic</div>
+          <div class="nav-link">Experimentation Playbook</div>
+          <div class="nav-link">midterm-s26-sol</div>
+          <div class="nav-link">24-sync-advanced</div>
+          <div class="nav-link">Introduction to Computer Sy...</div>
+          <div class="nav-section-title">SUGGESTED REFERENCES</div>
+          <div class="nav-link">GPRID – NB Overview Sugge...</div>
+          <div class="nav-link">GPRID – NB Overview Sugge...</div>
+          <div class="nav-link">Overview Page – Reframing ...</div>
+        </div>
+
+        <div class="main-wrap">
+          <div class="main-content">
+            <div class="topbar">
+              <button class="back-btn" onclick="goHome()">← Back</button>
+              <h1>Overview</h1>
+              <span class="topbar-meta">June 4, 2025</span>
             </div>
-            <div class="task-row" onclick="toggleTask(this)"><span class="checkbox"></span>Complete Homework Packet due tomorrow <span class="pdf-pill">▧ PDF ↗</span></div>
-            <div class="task-row" onclick="toggleTask(this)"><span class="checkbox"></span>Attend midterm review session today at 5pm</div>
-            <div class="task-row" onclick="toggleTask(this)"><span class="checkbox"></span>Submit regrade request for quiz 1 by Thursday night</div>
-            <div class="task-row" onclick="toggleTask(this)"><span class="checkbox"></span>Submit programming homework due Sunday</div>
-            <div class="task-row" onclick="toggleTask(this)"><span class="checkbox"></span>Study for midterm next Wednesday</div>
-          </section>
 
-          <section class="card">
-            <h2 class="section-title">Prepare for next week's midterm</h2>
-
-            <div class="timeline-line">
-              <div class="timeline-step blue-text">
-                <div class="timeline-dot"></div>
-                <div class="badge blue">5 days before</div>
-                <div class="step-label">Learn the Content</div>
+            <div class="card">
+              <div class="source-tags">
+                <span class="source-tag canvas">🎨 Canvas</span>
+                <span class="source-tag gradescope">📊 Gradescope</span>
               </div>
-              <div class="timeline-step green-text">
-                <div class="timeline-dot"></div>
-                <div class="badge green">3 days before</div>
-                <div class="step-label" style="color:var(--text)">Practice</div>
+              <div class="task-row">
+                <div class="checkbox"></div>
+                <span>Complete Homework Packet due tomorrow</span>
+                <span class="pdf-pill">📄 PDF</span>
               </div>
-              <div class="timeline-step orange-text">
-                <div class="timeline-dot"></div>
-                <div class="badge orange">1 day before</div>
-                <div class="step-label" style="color:var(--text)">Review</div>
+              <div class="task-row">
+                <div class="checkbox"></div>
+                <span>Attend midterm review session today at 5pm</span>
               </div>
-              <div class="timeline-step red-text">
-                <div class="timeline-dot"></div>
-                <div class="badge red">Midterm</div>
-                <div class="step-label" style="color:var(--text)">Exam Day</div>
+              <div class="task-row">
+                <div class="checkbox"></div>
+                <span>Submit regrade request for quiz 1 by Thursday night</span>
+              </div>
+              <div class="task-row">
+                <div class="checkbox"></div>
+                <span>Submit programming homework due Sunday</span>
+              </div>
+              <div class="task-row">
+                <div class="checkbox"></div>
+                <span>Study for midterm next Wednesday</span>
               </div>
             </div>
 
-            <div class="material-grid">
-              <div class="material">
-                <div class="material-card">
-                  <div class="doc-title blue-text">▧ Document</div>
-                  <pre>Midterm Study Guide:
-Ch. 1–7
-Lecture Notes &</pre>
-                  <div class="go blue-text">Let's go →</div>
+            <div class="card">
+              <h3 class="section-title">Prepare for next week's midterm</h3>
+              <div class="timeline-line">
+                <div class="timeline-step" style="color: var(--blue);">
+                  <div class="timeline-dot"></div>
+                  <div class="badge blue">5 days before</div>
+                  <div class="step-label">Learn the Content</div>
                 </div>
-                <p class="material-desc">Contains all materials from professor's announcement on midterm content, pulled from lecture slides, the textbook, recitation problems, and content in pract[...]</p>
+                <div class="timeline-step" style="color: var(--green);">
+                  <div class="timeline-dot"></div>
+                  <div class="badge green">3 days before</div>
+                  <div class="step-label">Practice</div>
+                </div>
+                <div class="timeline-step" style="color: var(--orange);">
+                  <div class="timeline-dot"></div>
+                  <div class="badge orange">1 day before</div>
+                  <div class="step-label">Review</div>
+                </div>
+                <div class="timeline-step" style="color: var(--red);">
+                  <div class="timeline-dot"></div>
+                  <div class="badge red">Midterm</div>
+                  <div class="step-label">Exam Day</div>
+                </div>
               </div>
-              <div class="material">
-                <div class="material-card">
-                  <div class="doc-title green-text">▧ Document</div>
-                  <pre>Practice Set: 32
+
+              <div class="material-grid">
+                <div class="material">
+                  <div class="material-card">
+                    <div class="doc-title">📋 Document</div>
+                    <pre>Midterm Study Guide:
+Ch. 1-7
+Lecture Notes &
+Solutions</pre>
+                    <div class="material-card .go">Let's go →</div>
+                    <div class="material-desc">Contain all materials from professor's announcement on midterm content, pulled from lecture slides, the textbook, recitation problems, and content in practice questions.</div>
+                  </div>
+                </div>
+                <div class="material">
+                  <div class="material-card">
+                    <div class="doc-title">📋 Document</div>
+                    <pre>Practice Set: 32
 Questions
-Prev. Midterms +</pre>
-                  <div class="go green-text">Let's go →</div>
+Prev. Midterms +
+Custom</pre>
+                    <div class="material-card .go">Let's go →</div>
+                    <div class="material-desc">Practice questions from prev. published midterms, homework, recitations, and custom questions generated for you.</div>
+                  </div>
                 </div>
-                <p class="material-desc">Practice questions from prev. published midterms, homework, recitations, and custom questions generated for you.</p>
-              </div>
-              <div class="material">
-                <div class="material-card">
-                  <div class="doc-title orange-text">▧ Document</div>
-                  <pre>Final Review Sheet
+                <div class="material">
+                  <div class="material-card">
+                    <div class="doc-title">📋 Document</div>
+                    <pre>Final Review Sheet
 Flagged Questions: 8
 Strength & Weakness</pre>
-                  <div class="go orange-text">Let's go →</div>
+                    <div class="material-card .go">Let's go →</div>
+                    <div class="material-desc">Key concepts review and revise questions you struggled on</div>
+                  </div>
                 </div>
-                <p class="material-desc">Key concepts review and revise questions you struggled on.</p>
-              </div>
-              <div class="material">
-                <div class="material-card">
-                  <div class="doc-title red-text">▧ Document</div>
-                  <pre>Quick Reference Card
+                <div class="material">
+                  <div class="material-card">
+                    <div class="doc-title">📋 Document</div>
+                    <pre>Quick Reference Card
 Formula Sheet
 Last-minute Tips...</pre>
-                  <div class="go red-text">Let's go →</div>
+                    <div class="material-card .go">Let's go →</div>
+                    <div class="material-desc">You're ready. Quick reference card and confidence checklist.</div>
+                  </div>
                 </div>
-                <p class="material-desc">You're ready. Quick reference card and confidence checklist.</p>
               </div>
             </div>
-          </section>
 
-          <section class="card">
-            <div class="grade-header">
-              <h2 class="section-title" style="margin:0">Grade Calculator</h2>
-              <div class="avg-pill">Current avg: <strong>85.2%</strong> B</div>
+            <div class="card">
+              <h2 class="section-title">Grade Calculator</h2>
+              <div class="grade-header">
+                <h3>Current grades</h3>
+                <div class="avg-pill">Current avg: <strong>85.2%</strong></div>
+              </div>
+              <div class="grade-grid">
+                <div class="grade-card">
+                  <div class="name">Homework</div>
+                  <div class="weight">15%</div>
+                  <div class="grade-score">94.2 <span>%</span></div>
+                  <div class="grade-letter">A</div>
+                </div>
+                <div class="grade-card">
+                  <div class="name">Recitation</div>
+                  <div class="weight">10%</div>
+                  <div class="grade-score">88 <span>%</span></div>
+                  <div class="grade-letter blue-letter">B+</div>
+                </div>
+                <div class="grade-card">
+                  <div class="name">Attendance</div>
+                  <div class="weight">5%</div>
+                  <div class="grade-score">100 <span>%</span></div>
+                  <div class="grade-letter">A+</div>
+                </div>
+                <div class="grade-card">
+                  <div class="name">Exam 1</div>
+                  <div class="weight">20%</div>
+                  <div class="grade-score">76.5 <span>%</span></div>
+                  <div class="grade-letter orange-letter">C+</div>
+                </div>
+                <div class="grade-card">
+                  <div class="name">Exam 2</div>
+                  <div class="weight">20%</div>
+                  <div class="grade-score">82 <span>%</span></div>
+                  <div class="grade-letter blue-letter">B-</div>
+                </div>
+                <div class="grade-card">
+                  <div class="name">Final</div>
+                  <div class="weight">30%</div>
+                  <div class="grade-score">— <span>%</span></div>
+                  <div class="grade-letter gray-letter">—</div>
+                </div>
+              </div>
             </div>
 
-            <div class="grade-grid">
-              <div class="grade-card">
-                <div class="name">Homework</div><div class="weight">15%</div>
-                <div class="grade-score green-text">94.2 <span>%</span></div>
-                <div class="grade-letter">A</div>
-              </div>
-              <div class="grade-card">
-                <div class="name">Recitation</div><div class="weight">10%</div>
-                <div class="grade-score blue-text">88 <span>%</span></div>
-                <div class="grade-letter blue-letter">B+</div>
-              </div>
-              <div class="grade-card">
-                <div class="name">Attendance</div><div class="weight">5%</div>
-                <div class="grade-score green-text">100 <span>%</span></div>
-                <div class="grade-letter">A+</div>
-              </div>
-              <div class="grade-card">
-                <div class="name">Exam 1</div><div class="weight">20%</div>
-                <div class="grade-score orange-text">76.5 <span>%</span></div>
-                <div class="grade-letter orange-letter">C+</div>
-              </div>
-              <div class="grade-card">
-                <div class="name">Exam 2</div><div class="weight">20%</div>
-                <div class="grade-score blue-text">82 <span>%</span></div>
-                <div class="grade-letter blue-letter">B-</div>
-              </div>
-              <div class="grade-card">
-                <div class="name">Final</div><div class="weight">30%</div>
-                <div class="grade-score" style="color:var(--muted)">—</div>
-                <div class="grade-letter gray-letter">—</div>
+            <div class="card">
+              <p>Since you lost points on 'Concurrent Systems' in this week's quiz, here is an interactive visual to help for the midterm:</p>
+              <div class="visual-card" style="margin-top: 24px;">
+                <h3>Concurrent Systems — <strong>concept map</strong></h3>
+                <div class="visual-preview">
+                  <button class="view-button">👁️ View</button>
+                </div>
               </div>
             </div>
-          </section>
 
-          <section class="card study-cta">
-            <div class="study-icon">▯</div>
-            <div>
-              <h3>View this tailored study guide with practice questions. ✨</h3>
-              <p>Tailored to online reviews</p>
+            <div class="insights">
+              <div class="insights-kicker">KEY INSIGHTS</div>
+              <h2>Foundations of Concurrent Systems</h2>
+              <h3>Hardware Parallelism Concepts</h3>
+              <ul>
+                <li>Hardware parallelism enables multicore and hyperthreading to execute multiple threads concurrently on shared memory</li>
+                <li>Understanding hardware parallelism explores performance limits and motivates careful thread-level program design</li>
+              </ul>
             </div>
-            <div class="arrow">→</div>
-          </section>
-
-          <section class="card visual-card">
-            <h3>Since you lost points on <strong>'Concurrent Systems'</strong> in this week's quiz, here is an interactive visual to help for the midterm:</h3>
-            <div class="visual-preview">
-              <button class="view-button">⊙ View</button>
-            </div>
-          </section>
-
-          <section class="insights">
-            <div class="insights-kicker">Key Insights</div>
-            <h2>Foundations of Concurrent Systems</h2>
-
-            <h3>Hardware Parallelism Concepts</h3>
-            <ul>
-              <li>Hardware parallelism enables multicore and hyperthreading to execute multiple threads concurrently on shared memory ↗</li>
-              <li>Understanding hardware parallelism explores performance limits and motivates careful thread-level program design ↗</li>
-            </ul>
-
-            <h3>Synchronization Primitives</h3>
-            <ul>
-              <li>Semaphores and mutexes enable mutual exclusion and coordination for safe shared-resource access across threads ↗</li>
-              <li>Correct synchronization prevents races, deadlocks, and starvation in realistic multithreaded applications ↗</li>
-            </ul>
-          </section>
+          </div>
         </div>
-      </main>
-    </div>
-  </div>
 
-  <script>
-    let currentMonth = 8; // September (0-indexed)
-    let currentYear = 2026;
+        <div class="copilot-panel">
+          <div class="copilot-head">
+            <h2>Get the main points</h2>
+            <div class="panel-icons">
+              <span>📎</span>
+              <span>⚙️</span>
+            </div>
+          </div>
+          <div class="prompt-list">
+            <div class="prompt">Provide a detailed explanation of [topic] in this notebook</div>
+            <div class="prompt">Draft an abstract with 5 citations listed from my References</div>
+            <div class="prompt">Describe common themes in my notebook</div>
+          </div>
+          <div class="message-box">
+            <span>Ask Copilot...</span>
+            <button class="send-btn">➤</button>
+          </div>
+          <div class="feedback">
+            <span>👍 Helpful</span>
+            <span>👎 Not helpful</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-    // Calendar events data
-    const events = {
-      '2026-09-08': ['Calculus Exam'], // 2nd Tuesday
-      '2026-09-17': ['Computer Systems Exam'], // 3rd Thursday
-      '2026-09-25': ['Matrices Quiz'], // Last Friday
-    };
+  function renderLinearAlgebraNotebook() {
+    document.getElementById('notebook18214').innerHTML = `
+      <div class="empty-notebook-message">
+        This notebook is empty
+      </div>
+    `;
+  }
 
-    // Recurring events
-    function getRecurringEvents(date) {
-      const day = date.getDay();
-      const events = [];
-      
-      // Every Saturday: Computer Systems programming due
-      if (day === 6) events.push('CS programming due');
-      // Every Monday: computer systems written due
-      if (day === 1) events.push('CS written due');
-      // Every Thursday: calculus problem set due and matrices problem set due
-      if (day === 4) {
-        events.push('Calc problem set due');
-        events.push('Matrices problem set due');
-      }
-      
-      return events;
-    }
+  function renderAdvancedCalculusNotebook() {
+    document.getElementById('notebook18215').innerHTML = `
+      <div class="empty-notebook-message">
+        This notebook is empty
+      </div>
+    `;
+  }
 
-    function renderCalendar() {
-      const calendarGrid = document.getElementById('calendarGrid');
-      calendarGrid.innerHTML = '';
+  function goHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelector('.overview-page').classList.add('active');
+  }
 
-      // Add day headers
-      const dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-      dayHeaders.forEach(day => {
-        const header = document.createElement('div');
-        header.className = 'calendar-day-header';
-        header.textContent = day;
-        calendarGrid.appendChild(header);
-      });
-
-      // Get first day of month and number of days
-      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-      // Add empty cells for days before month starts
-      for (let i = 0; i < firstDay; i++) {
-        const empty = document.createElement('div');
-        empty.className = 'calendar-day empty';
-        calendarGrid.appendChild(empty);
-      }
-
-      // Add days of month
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dayEl = document.createElement('div');
-        dayEl.className = 'calendar-day';
-        
-        const dayNumber = document.createElement('div');
-        dayNumber.className = 'calendar-day-number';
-        dayNumber.textContent = day;
-        dayEl.appendChild(dayNumber);
-
-        // Check for specific events
-        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const specificEvents = events[dateStr] || [];
-
-        // Check for recurring events
-        const date = new Date(currentYear, currentMonth, day);
-        const recurringEvents = getRecurringEvents(date);
-
-        // Combine all events
-        const allEvents = [...specificEvents, ...recurringEvents];
-
-        allEvents.forEach(event => {
-          const eventEl = document.createElement('div');
-          eventEl.className = 'calendar-event';
-          
-          // Add specific classes for styling
-          if (event.includes('Calculus') || event.includes('Calc')) {
-            eventEl.classList.add('calculus');
-          } else if (event.includes('Matrices')) {
-            eventEl.classList.add('matrices');
-          }
-          
-          eventEl.textContent = event;
-          dayEl.appendChild(eventEl);
-        });
-
-        calendarGrid.appendChild(dayEl);
-      }
-
-      // Update month display
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      document.getElementById('calendarMonth').textContent = `${monthNames[currentMonth]} ${currentYear}`;
-    }
-
-    function previousMonth() {
-      if (currentMonth === 0) {
-        currentMonth = 11;
-        currentYear--;
-      } else {
-        currentMonth--;
-      }
-      renderCalendar();
-    }
-
-    function nextMonth() {
-      if (currentMonth === 11) {
-        currentMonth = 0;
-        currentYear++;
-      } else {
-        currentMonth++;
-      }
-      renderCalendar();
-    }
-
-    function openNotebook(id, title) {
-      const notebookContent = document.getElementById('notebookContent');
-      
-      // Check if it's an empty notebook
-      if (id !== '18213') {
-        notebookContent.innerHTML = '<div class="empty-notebook-message">This notebook is empty. Come back later!</div>';
-      } else {
-        // Show the full content for the main notebook
-        notebookContent.style.display = 'block';
-      }
-
-      document.getElementById('notebookTitle').textContent = id;
-      document.getElementById('overviewPage').classList.remove('active');
-      document.getElementById('notebookPage').classList.add('active');
-    }
-
-    function goBackToOverview() {
-      document.getElementById('notebookPage').classList.remove('active');
-      document.getElementById('overviewPage').classList.add('active');
-    }
-
-    function toggleTask(element) {
-      element.classList.toggle('completed');
-    }
-
-    function togglePanel() {
-      const appShell = document.getElementById('appShell');
-      appShell.classList.toggle('full');
-    }
-
-    // Initial calendar render
-    renderCalendar();
-  </script>
+  // Initialize
+  renderNotebooksGrid();
+</script>
 </body>
-</html>
+</html>`;
+    await this.run();
+  },
+  message: "Add calendar resize and 18213 notebook content with to-do list, timeline, grade calculator, and insights",
+  owner: "jiya-microsoft",
+  path: "index.html",
+  repo: "copilot_students",
+  sha: "36bab7a607d1df82fd4aa814510b3598459c56d8"
+}
