@@ -74,16 +74,117 @@ button, input {
   font-size: 16px;
 }
 
+/* Home row: calendar + todo side by side */
+.home-content-row {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.calendar-col {
+  flex: 0 0 660px;
+  height: 570px;
+  overflow: hidden;
+  position: relative;
+}
+
+.todo-col {
+  flex: 1;
+  min-width: 0;
+  height: 570px;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.todo-col-header {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.todo-course-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 8px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted-2);
+}
+
+.todo-course-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+  margin-bottom: 2px;
+}
+
+.todo-item:hover { background: var(--panel-2); }
+
+.todo-item.done {
+  color: var(--muted-2);
+  text-decoration: line-through;
+}
+
+.todo-item.done .mini-check { background: var(--green); border-color: var(--green); }
+.todo-item.done .mini-check::after { content: "✓"; display: block; text-align: center; color: white; font-size: 9px; font-weight: 800; line-height: 16px; }
+
+.mini-check {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  flex: 0 0 auto;
+  margin-top: 1px;
+  background: white;
+  transition: all 0.15s ease;
+}
+
+.mini-check:hover { border-color: var(--blue); }
+
+.todo-due {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--muted-2);
+  white-space: nowrap;
+  padding-left: 8px;
+  flex: 0 0 auto;
+}
+
+.todo-due.urgent { color: var(--red); font-weight: 700; }
+
 /* Calendar Styles */
 .calendar-section {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
-  max-width: 1400px;
-  transform: scale(0.5625);
+  width: 880px;
+  transform: scale(0.75);
   transform-origin: top left;
-  margin-bottom: -131px;
 }
 
 .calendar-header {
@@ -986,6 +1087,53 @@ button, input {
   opacity: 0.9;
 }
 
+/* Grade toggle */
+.grade-toggle-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.grade-toggle-btn:hover { border-color: var(--blue); color: var(--blue); }
+.grade-toggle-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.grade-input {
+  display: none;
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--text);
+  background: white;
+  margin-top: 7px;
+  transition: border-color 0.2s;
+}
+.grade-input:focus { outline: none; border-color: var(--blue); }
+.grade-input::placeholder { color: var(--muted-2); font-size: 18px; }
+
+.grade-what-if .grade-score { display: none; }
+.grade-what-if .grade-input { display: block; }
+
+.projected-pill {
+  margin-top: 14px;
+  background: rgba(59,124,255,0.08);
+  border: 1px solid rgba(59,124,255,0.2);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--muted);
+  display: none;
+}
+.projected-pill strong { color: var(--text); font-size: 18px; margin: 0 4px; }
+.projected-pill #projectedLetter { color: var(--blue); font-weight: 700; }
+
 /* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; place-items: center; z-index: 1000; }
 .modal-overlay.active { display: grid; }
@@ -1075,16 +1223,104 @@ button, input {
       <p>Select a notebook to view your study materials and progress</p>
     </div>
 
-    <!-- Calendar Section -->
-    <div class="calendar-section">
-      <div class="calendar-header">
-        <h2 id="calendarMonth">September 2026</h2>
-        <div class="calendar-nav">
-          <button onclick="previousMonth()">← Previous</button>
-          <button onclick="nextMonth()">Next →</button>
+    <!-- Calendar + Todo row -->
+    <div class="home-content-row">
+      <div class="calendar-col">
+        <div class="calendar-section">
+          <div class="calendar-header">
+            <h2 id="calendarMonth">September 2026</h2>
+            <div class="calendar-nav">
+              <button onclick="previousMonth()">← Previous</button>
+              <button onclick="nextMonth()">Next →</button>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
         </div>
       </div>
-      <div class="calendar-grid" id="calendarGrid"></div>
+
+      <div class="todo-col">
+        <div class="todo-col-header">📋 To-Do</div>
+
+        <div class="todo-course-label">
+          <div class="todo-course-dot" style="background:var(--red)"></div>
+          18-213 · Computer Systems
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Complete Homework Packet due tomorrow</span>
+          <span class="todo-due urgent">tmrw</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Attend midterm review session today at 5pm</span>
+          <span class="todo-due urgent">today</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Submit regrade request for quiz 1 by Thursday night</span>
+          <span class="todo-due">Thu</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Submit programming homework due Sunday</span>
+          <span class="todo-due">Sun</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Study for midterm next Wednesday</span>
+          <span class="todo-due">Wed</span>
+        </div>
+
+        <div class="todo-course-label">
+          <div class="todo-course-dot" style="background:var(--orange)"></div>
+          18-900 · Calculus in 3D
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Problem set 4 due this Thursday</span>
+          <span class="todo-due urgent">Thu</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Read Ch. 14 — Green's theorem before lecture</span>
+          <span class="todo-due">Wed</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Attend office hours Monday 3–4pm</span>
+          <span class="todo-due">Mon</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Review integration techniques for quiz Friday</span>
+          <span class="todo-due">Fri</span>
+        </div>
+
+        <div class="todo-course-label">
+          <div class="todo-course-dot" style="background:var(--green)"></div>
+          21-241 · Matrices & Linear Transformations
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Homework 7 due Friday — Ch. 5 eigenvalues</span>
+          <span class="todo-due urgent">Fri</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Study orthogonality for quiz Wednesday</span>
+          <span class="todo-due">Wed</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Read Ch. 6 — orthogonal projections</span>
+          <span class="todo-due">this week</span>
+        </div>
+        <div class="todo-item" onclick="this.classList.toggle('done')">
+          <div class="mini-check"></div>
+          <span>Practice Gram-Schmidt problems from recitation</span>
+          <span class="todo-due">this week</span>
+        </div>
+      </div>
     </div>
 
     <div class="notebooks-grid">
@@ -1240,40 +1476,52 @@ Last-minute Tips...</pre>
           <section class="card">
             <div class="grade-header">
               <h2 class="section-title" style="margin:0">Grade Calculator</h2>
-              <div class="avg-pill">Current avg: <strong>85.2%</strong> B</div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="avg-pill">Current avg: <strong id="gradeAvg">85.2%</strong> <span id="gradeLetter">B</span></div>
+                <button class="grade-toggle-btn" id="gradeToggleBtn" onclick="toggleGradeMode()">What-if? ✏️</button>
+              </div>
             </div>
 
-            <div class="grade-grid">
+            <div class="grade-grid" id="gradeGrid">
               <div class="grade-card">
                 <div class="name">Homework</div><div class="weight">15%</div>
                 <div class="grade-score green-text">94.2 <span>%</span></div>
-                <div class="grade-letter">A</div>
+                <input class="grade-input" type="number" value="94.2" min="0" max="100" placeholder="0–100" data-weight="0.15" oninput="recalcGrade()">
+                <div class="grade-letter" id="gl-hw">A</div>
               </div>
               <div class="grade-card">
                 <div class="name">Recitation</div><div class="weight">10%</div>
                 <div class="grade-score blue-text">88 <span>%</span></div>
-                <div class="grade-letter blue-letter">B+</div>
+                <input class="grade-input" type="number" value="88" min="0" max="100" placeholder="0–100" data-weight="0.10" oninput="recalcGrade()">
+                <div class="grade-letter blue-letter" id="gl-rec">B+</div>
               </div>
               <div class="grade-card">
                 <div class="name">Attendance</div><div class="weight">5%</div>
                 <div class="grade-score green-text">100 <span>%</span></div>
-                <div class="grade-letter">A+</div>
+                <input class="grade-input" type="number" value="100" min="0" max="100" placeholder="0–100" data-weight="0.05" oninput="recalcGrade()">
+                <div class="grade-letter" id="gl-att">A+</div>
               </div>
               <div class="grade-card">
                 <div class="name">Exam 1</div><div class="weight">20%</div>
                 <div class="grade-score orange-text">76.5 <span>%</span></div>
-                <div class="grade-letter orange-letter">C+</div>
+                <input class="grade-input" type="number" value="76.5" min="0" max="100" placeholder="0–100" data-weight="0.20" oninput="recalcGrade()">
+                <div class="grade-letter orange-letter" id="gl-e1">C+</div>
               </div>
               <div class="grade-card">
                 <div class="name">Exam 2</div><div class="weight">20%</div>
                 <div class="grade-score blue-text">82 <span>%</span></div>
-                <div class="grade-letter blue-letter">B-</div>
+                <input class="grade-input" type="number" value="82" min="0" max="100" placeholder="0–100" data-weight="0.20" oninput="recalcGrade()">
+                <div class="grade-letter blue-letter" id="gl-e2">B-</div>
               </div>
               <div class="grade-card">
                 <div class="name">Final</div><div class="weight">30%</div>
                 <div class="grade-score" style="color:var(--muted)">—</div>
-                <div class="grade-letter gray-letter">—</div>
+                <input class="grade-input" type="number" min="0" max="100" placeholder="enter score" data-weight="0.30" oninput="recalcGrade()">
+                <div class="grade-letter gray-letter" id="gl-fin">—</div>
               </div>
+            </div>
+            <div class="projected-pill" id="projectedPill">
+              <span id="pillLabel">Based on grades so far: </span><strong id="projectedScore">—</strong> <span id="projectedLetter">—</span><span id="pillNote"> · Enter the Final score to see your full projected grade</span>
             </div>
           </section>
 
@@ -1461,6 +1709,71 @@ Last-minute Tips...</pre>
     function togglePanel() {
       const appShell = document.getElementById('appShell');
       appShell.classList.toggle('full');
+    }
+
+    function letterGrade(s) {
+      if (s >= 97) return 'A+';
+      if (s >= 93) return 'A';
+      if (s >= 90) return 'A-';
+      if (s >= 87) return 'B+';
+      if (s >= 83) return 'B';
+      if (s >= 80) return 'B-';
+      if (s >= 77) return 'C+';
+      if (s >= 73) return 'C';
+      if (s >= 70) return 'C-';
+      if (s >= 67) return 'D+';
+      if (s >= 60) return 'D';
+      return 'F';
+    }
+
+    let gradeEditMode = false;
+
+    function toggleGradeMode() {
+      gradeEditMode = !gradeEditMode;
+      const grid = document.getElementById('gradeGrid');
+      const btn = document.getElementById('gradeToggleBtn');
+      const pill = document.getElementById('projectedPill');
+      if (gradeEditMode) {
+        grid.classList.add('grade-what-if');
+        btn.classList.add('active');
+        btn.textContent = 'Done ✓';
+        pill.style.display = 'block';
+        recalcGrade();
+      } else {
+        grid.classList.remove('grade-what-if');
+        btn.classList.remove('active');
+        btn.textContent = 'What-if? ✏️';
+        pill.style.display = 'none';
+      }
+    }
+
+    function recalcGrade() {
+      const inputs = document.querySelectorAll('#gradeGrid .grade-input');
+      let weightedSum = 0, totalWeight = 0;
+      inputs.forEach(inp => {
+        const w = parseFloat(inp.dataset.weight);
+        const v = inp.value.trim();
+        if (v !== '') {
+          const s = Math.min(100, Math.max(0, parseFloat(v) || 0));
+          weightedSum += s * w;
+          totalWeight += w;
+        }
+      });
+      if (totalWeight === 0) return;
+      // weights sum to 1, so weightedSum IS the final grade when all are filled.
+      // if some are empty, normalize by totalWeight to get "grade on work done so far".
+      const allFilled = totalWeight >= 0.99;
+      const score = allFilled ? weightedSum : (weightedSum / totalWeight);
+      const scoreStr = score.toFixed(1) + '%';
+      const letter = letterGrade(score);
+      document.getElementById('gradeAvg').textContent = scoreStr;
+      document.getElementById('gradeLetter').textContent = letter;
+      document.getElementById('projectedScore').textContent = scoreStr;
+      document.getElementById('projectedLetter').textContent = letter;
+      const pillLabel = document.getElementById('pillLabel');
+      const pillNote = document.getElementById('pillNote');
+      if (pillLabel) pillLabel.textContent = allFilled ? 'Final grade: ' : 'Based on grades so far: ';
+      if (pillNote) pillNote.textContent = allFilled ? '' : ' · Enter the Final score to see your full projected grade';
     }
 
     // Initial calendar render
