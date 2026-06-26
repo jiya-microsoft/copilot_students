@@ -83,15 +83,15 @@ button, input {
 }
 
 .calendar-col {
-  flex: 0 0 660px;
+  flex: 1;
+  min-width: 0;
   height: 570px;
   overflow: hidden;
   position: relative;
 }
 
 .todo-col {
-  flex: 1;
-  min-width: 0;
+  flex: 0 0 260px;
   height: 570px;
   overflow-y: auto;
   background: var(--panel);
@@ -182,7 +182,7 @@ button, input {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
-  width: 880px;
+  width: calc(100% / 0.75);
   transform: scale(0.75);
   transform-origin: top left;
 }
