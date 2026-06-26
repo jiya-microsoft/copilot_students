@@ -80,8 +80,10 @@ button, input {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
-  margin-bottom: 40px;
   max-width: 1400px;
+  transform: scale(0.5625);
+  transform-origin: top left;
+  margin-bottom: -131px;
 }
 
 .calendar-header {
@@ -174,6 +176,11 @@ button, input {
 .calendar-event.matrices {
   background: rgba(17, 191, 66, 0.1);
   color: var(--green);
+}
+
+.calendar-event.cs {
+  background: rgba(255, 75, 75, 0.1);
+  color: var(--red);
 }
 
 .notebooks-grid {
@@ -979,6 +986,401 @@ button, input {
   opacity: 0.9;
 }
 
+<<<<<<< HEAD
+=======
+/* Concurrent Systems Demo */
+.demo-page {
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.demo-header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.demo-header button {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-header button:hover {
+  background: var(--panel-2);
+  border-color: var(--blue);
+}
+
+.demo-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-container {
+  max-width: 900px;
+  width: 100%;
+}
+
+.demo-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text);
+  text-align: center;
+}
+
+.simulation {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 24px;
+}
+
+.cores-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.core {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.core-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.core-thread {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background: var(--blue);
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.core-thread.thread-2 {
+  background: var(--green);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.controls button:hover {
+  opacity: 0.8;
+}
+
+.controls button:disabled {
+  background: var(--muted-2);
+  cursor: not-allowed;
+}
+
+.info-section {
+  background: rgba(59, 124, 255, 0.05);
+  border-left: 4px solid var(--blue);
+  padding: 16px;
+  border-radius: 6px;
+  margin-top: 24px;
+}
+
+.info-section h4 {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.info-section p {
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: none;
+  place-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: grid;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 700px;
+  width: 92%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  font-size: 16px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--panel-2);
+}
+
+.modal-kicker {
+  color: var(--red);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.modal-subtitle {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 24px;
+}
+
+.demo-arena {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.arena-label {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.shared-counter {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.counter-box {
+  display: inline-block;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 28px;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--text);
+  transition: all 0.15s ease;
+}
+
+.counter-box.bump {
+  border-color: var(--blue);
+  transform: scale(1.08);
+}
+
+.counter-box.bad {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.counter-label {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.threads-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.thread-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.thread-card.running {
+  border-color: var(--blue);
+  background: rgba(59, 124, 255, 0.05);
+}
+
+.thread-card.waiting {
+  border-color: var(--orange);
+  background: rgba(255, 122, 0, 0.05);
+}
+
+.thread-card.blocked {
+  opacity: 0.45;
+}
+
+.thread-name {
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.thread-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.lock-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.lock-indicator {
+  padding: 6px 14px;
+  border-radius: 8px;
+  background: rgba(17, 191, 66, 0.1);
+  color: var(--green);
+  border: 1px solid rgba(17, 191, 66, 0.3);
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.lock-indicator.held {
+  background: rgba(255, 122, 0, 0.1);
+  color: var(--orange);
+  border-color: rgba(255, 122, 0, 0.3);
+}
+
+.demo-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.demo-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.demo-btn.safe {
+  background: var(--blue);
+  color: white;
+}
+
+.demo-btn.safe:hover { opacity: 0.85; }
+
+.demo-btn.unsafe {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.demo-btn.unsafe:hover { border-color: var(--red); color: var(--red); }
+
+.demo-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.demo-log {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 16px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  color: #aaa;
+  min-height: 80px;
+  max-height: 140px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.log-line.good { color: #11bf42; }
+.log-line.bad { color: #ff4b4b; }
+.log-line.info { color: #3b7cff; }
+
+>>>>>>> d7095b9 (your message)
 @media (max-width: 1200px) {
   body { overflow: auto; }
   .app-shell {
@@ -1039,14 +1441,225 @@ button, input {
           <button onclick="nextMonth()">Next →</button>
         </div>
       </div>
+<<<<<<< HEAD
       <div class="calendar-grid" id="calendarGrid"></div>
+=======
+      <div class="calendar-day">
+        <div class="calendar-day-number">2</div>
+        <div class="calendar-event calculus">Calculus HW Due</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">3</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">4</div>
+        <div class="calendar-event matrices">Linear Algebra Quiz</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">5</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">6</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">7</div>
+        <div class="calendar-event">Lecture Review</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">8</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">9</div>
+        <div class="calendar-event calculus">Calculus Exam Prep</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">10</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">11</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">12</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">13</div>
+        <div class="calendar-event matrices">Linear Algebra HW</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">14</div>
+        <div class="calendar-event cs">Computer Systems Written</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">15</div>
+        <div class="calendar-event calculus">Calculus Midterm</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">16</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">17</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">18</div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">19</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">20</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">21</div>
+        <div class="calendar-event matrices">Linear Algebra Exam</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">22</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">23</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">24</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">25</div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="calendar-day">
+        <div class="calendar-day-number">26</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">27</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">28</div>
+        <div class="calendar-event cs">Computer Systems Programming</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">29</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">30</div>
+      </div>
+      <div class="calendar-day">
+        <div class="calendar-day-number">31</div>
+      </div>
+      <div class="calendar-day empty"></div>
+>>>>>>> d7095b9 (your message)
     </div>
 
+<<<<<<< HEAD
     <div class="notebooks-grid">
       <div class="notebook-card" onclick="openNotebook('18213', 'Introduction to Computer Systems')">
         <div class="notebook-icon">📚</div>
         <h3>Introduction to Computer Systems</h3>
         <p>18-213 • Spring 2026 - Comprehensive study guide covering system fundamentals, assembly, memory, and concurrent systems.</p>
+=======
+  <div class="notebooks-grid" id="notebooksGrid">
+    <!-- Notebooks will be generated here -->
+  </div>
+</div>
+
+<!-- Notebook Pages -->
+<div class="page notebook-page" id="notebook18213"></div>
+<div class="page notebook-page" id="notebook18214"></div>
+<div class="page notebook-page" id="notebook18215"></div>
+
+<!-- Concurrent Systems Demo Page -->
+<div class="page demo-page" id="concurrentSystemsDemo"></div>
+
+<!-- Concurrent Systems Modal -->
+<div class="modal-overlay" id="concurrentModal" onclick="closeConcurrentModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeConcurrentModal()">✕</button>
+    <div class="modal-kicker">🔍 Quiz Review — Concurrent Systems</div>
+    <div class="modal-title">You lost points on mutex locks & race conditions</div>
+    <div class="modal-subtitle">Here's an interactive demo to build intuition before the midterm. Try both modes and watch the counter.</div>
+
+    <div class="demo-arena">
+      <div class="arena-label">Shared Counter</div>
+      <div class="shared-counter">
+        <div class="counter-box" id="demoCounter">0</div>
+        <div class="counter-label">target: 10 (Thread 1 increments 5×, Thread 2 increments 5×)</div>
+      </div>
+
+      <div class="lock-row">
+        🔒 Mutex lock:
+        <div class="lock-indicator" id="lockIndicator">FREE</div>
+        <span id="lockHolder" style="color: var(--muted); font-size: 13px; font-weight: 400;"></span>
+      </div>
+
+      <div class="threads-row">
+        <div class="thread-card" id="thread1Card">
+          <div class="thread-name" style="color: var(--blue);">Thread 1</div>
+          <div class="thread-status" id="t1Status">idle</div>
+        </div>
+        <div class="thread-card" id="thread2Card">
+          <div class="thread-name" style="color: var(--green);">Thread 2</div>
+          <div class="thread-status" id="t2Status">idle</div>
+        </div>
+      </div>
+
+      <div class="demo-btns" style="margin-bottom: 14px;">
+        <button class="demo-btn safe" id="btnSafe" onclick="runDemo(true)">▶ Run WITH lock (safe)</button>
+        <button class="demo-btn unsafe" id="btnUnsafe" onclick="runDemo(false)">▶ Run WITHOUT lock (race!)</button>
+      </div>
+
+      <div class="demo-log" id="demoLog">
+        <div style="color: #555;">Click a button above to start the simulation...</div>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <h4>💡 What just happened?</h4>
+      <p id="demoExplain">Run a simulation above to see the explanation here.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const notebooks = [
+    {
+      id: '18213',
+      icon: '📐',
+      title: 'Calculus I',
+      description: 'Limits, derivatives, and integrals',
+      lastUpdated: '2 hours ago',
+      items: 42
+    },
+    {
+      id: '18214',
+      icon: '🔢',
+      title: 'Linear Algebra',
+      description: 'Matrices, vectors, and transformations',
+      lastUpdated: '1 day ago',
+      items: 38
+    },
+    {
+      id: '18215',
+      icon: '∫',
+      title: 'Advanced Calculus',
+      description: 'Multivariable calculus and series',
+      lastUpdated: '3 days ago',
+      items: 25
+    }
+  ];
+
+  function renderNotebooksGrid() {
+    const grid = document.getElementById('notebooksGrid');
+    grid.innerHTML = notebooks.map(nb => `
+      <div class="notebook-card" onclick="openNotebook('${nb.id}')">
+        <div class="notebook-icon">${nb.icon}</div>
+        <h3>${nb.title}</h3>
+        <p>${nb.description}</p>
+>>>>>>> d7095b9 (your message)
         <div class="notebook-meta">
           <span>Last updated: June 23, 2026</span>
           <span>Grade: 85.2% B</span>
@@ -1060,6 +1673,7 @@ button, input {
           <span>Last updated: June 21, 2026</span>
           <span>Grade: 91.0% A-</span>
         </div>
+<<<<<<< HEAD
       </div>
       <div class="notebook-card" onclick="openNotebook('21241', 'Matrices and Linear Transformations')">
         <div class="notebook-icon">🔢</div>
@@ -1068,6 +1682,26 @@ button, input {
         <div class="notebook-meta">
           <span>Last updated: June 19, 2026</span>
           <span>Grade: 88.5% B+</span>
+=======
+
+        <div class="sidebar">
+          <div class="study-title">
+            <span class="chip-icon">📍</span>
+            18213 study
+          </div>
+          <div class="nav-list">
+            <div class="nav-item active">📋 Overview</div>
+            <div class="nav-item">📚 Reference</div>
+          </div>
+          <div class="nav-section-title">REFERENCES</div>
+          <div class="nav-link">Beta 1</div>
+          <div class="nav-link">18-ecf-sign</div>
+          <div class="nav-link">15-malloc-basic</div>
+          <div class="nav-link">Experimentation Playbook</div>
+          <div class="nav-link">midterm-s26-sol</div>
+          <div class="nav-link">24-sync-advanced</div>
+          <div class="nav-link">Introduction to Computer Sy...</div>
+>>>>>>> d7095b9 (your message)
         </div>
       </div>
     </div>
@@ -1242,11 +1876,22 @@ Last-minute Tips...</pre>
             </div>
           </section>
 
+<<<<<<< HEAD
           <section class="card study-cta">
             <div class="study-icon">▯</div>
             <div>
               <h3>View this tailored study guide with practice questions. ✨</h3>
               <p>Tailored to online reviews</p>
+=======
+            <div class="card">
+              <p>Since you lost points on 'Concurrent Systems' in this week's quiz, here is an interactive visual to help for the midterm:</p>
+              <div class="visual-card" style="margin-top: 24px;">
+                <h3>Concurrent Systems — <strong>concept map</strong></h3>
+                <div class="visual-preview">
+                  <button class="view-button" onclick="openConcurrentModal()">👁️ View</button>
+                </div>
+              </div>
+>>>>>>> d7095b9 (your message)
             </div>
             <div class="arrow">→</div>
           </section>
@@ -1346,6 +1991,7 @@ Last-minute Tips...</pre>
         const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const specificEvents = events[dateStr] || [];
 
+<<<<<<< HEAD
         // Check for recurring events
         const date = new Date(currentYear, currentMonth, day);
         const recurringEvents = getRecurringEvents(date);
@@ -1429,5 +2075,155 @@ Last-minute Tips...</pre>
     // Initial calendar render
     renderCalendar();
   </script>
+=======
+  function openConcurrentModal() {
+    document.getElementById('concurrentModal').classList.add('active');
+    resetDemo();
+  }
+
+  function closeConcurrentModal(e) {
+    if (!e || e.target === document.getElementById('concurrentModal') || e.currentTarget.classList.contains('modal-close')) {
+      document.getElementById('concurrentModal').classList.remove('active');
+    }
+  }
+
+  function resetDemo() {
+    document.getElementById('demoCounter').textContent = '0';
+    document.getElementById('demoCounter').className = 'counter-box';
+    document.getElementById('lockIndicator').textContent = 'FREE';
+    document.getElementById('lockIndicator').className = 'lock-indicator';
+    document.getElementById('lockHolder').textContent = '';
+    document.getElementById('t1Status').textContent = 'idle';
+    document.getElementById('t2Status').textContent = 'idle';
+    document.getElementById('thread1Card').className = 'thread-card';
+    document.getElementById('thread2Card').className = 'thread-card';
+    document.getElementById('demoLog').innerHTML = '<div style="color:#555;">Click a button above to start the simulation...</div>';
+    document.getElementById('demoExplain').textContent = 'Run a simulation above to see the explanation here.';
+    document.getElementById('btnSafe').disabled = false;
+    document.getElementById('btnUnsafe').disabled = false;
+  }
+
+  function log(msg, type) {
+    const el = document.getElementById('demoLog');
+    const line = document.createElement('div');
+    line.className = 'log-line ' + (type || '');
+    line.textContent = msg;
+    el.appendChild(line);
+    el.scrollTop = el.scrollHeight;
+  }
+
+  async function runDemo(withLock) {
+    document.getElementById('btnSafe').disabled = true;
+    document.getElementById('btnUnsafe').disabled = true;
+    document.getElementById('demoLog').innerHTML = '';
+    document.getElementById('demoCounter').className = 'counter-box';
+    document.getElementById('demoCounter').textContent = '0';
+
+    let counter = 0;
+    let lockHeld = null;
+    const delay = ms => new Promise(r => setTimeout(r, ms));
+
+    function setCounter(v, cls) {
+      counter = v;
+      const el = document.getElementById('demoCounter');
+      el.textContent = v;
+      el.className = 'counter-box' + (cls ? ' ' + cls : '');
+      setTimeout(() => el.className = 'counter-box', 300);
+    }
+
+    function setThread(n, state) {
+      const card = document.getElementById('thread' + n + 'Card');
+      const status = document.getElementById('t' + n + 'Status');
+      card.className = 'thread-card ' + (state === 'running' ? 'running' : state === 'waiting' ? 'waiting' : '');
+      status.textContent = state;
+    }
+
+    function setLock(holder) {
+      lockHeld = holder;
+      const ind = document.getElementById('lockIndicator');
+      const hl = document.getElementById('lockHolder');
+      if (holder) {
+        ind.textContent = 'HELD';
+        ind.className = 'lock-indicator held';
+        hl.textContent = '← by Thread ' + holder;
+      } else {
+        ind.textContent = 'FREE';
+        ind.className = 'lock-indicator';
+        hl.textContent = '';
+      }
+    }
+
+    if (withLock) {
+      log('> Simulation: WITH mutex lock', 'info');
+      for (let i = 1; i <= 5; i++) {
+        log('T1: acquiring lock...', '');
+        setThread(1, 'waiting');
+        await delay(300);
+        setLock(1);
+        setThread(1, 'running');
+        setThread(2, 'blocked');
+        log('T1: lock acquired → read counter (' + counter + ') → +1', 'good');
+        await delay(400);
+        setCounter(counter + 1, 'bump');
+        log('T1: write counter (' + counter + ') → release lock', 'good');
+        await delay(300);
+        setLock(null);
+        setThread(1, 'idle');
+
+        log('T2: acquiring lock...', '');
+        setThread(2, 'waiting');
+        await delay(300);
+        setLock(2);
+        setThread(2, 'running');
+        setThread(1, 'blocked');
+        log('T2: lock acquired → read counter (' + counter + ') → +1', 'good');
+        await delay(400);
+        setCounter(counter + 1, 'bump');
+        log('T2: write counter (' + counter + ') → release lock', 'good');
+        await delay(300);
+        setLock(null);
+        setThread(2, 'idle');
+      }
+      setThread(1, 'idle'); setThread(2, 'idle');
+      log('✓ Final counter: ' + counter + ' — correct! (expected 10)', 'good');
+      document.getElementById('demoExplain').textContent =
+        'With a mutex lock, only one thread can read-modify-write the counter at a time. Thread 2 must wait until Thread 1 releases the lock. The counter reaches the correct value of 10 every time.';
+    } else {
+      log('> Simulation: WITHOUT mutex lock (race condition!)', 'info');
+      let stale1 = 0, stale2 = 0;
+      for (let i = 1; i <= 5; i++) {
+        stale1 = counter;
+        setThread(1, 'running');
+        log('T1: read counter (' + stale1 + ')...', '');
+        await delay(200);
+
+        stale2 = counter;
+        setThread(2, 'running');
+        log('T2: read counter (' + stale2 + ') ← same stale value!', 'bad');
+        await delay(200);
+
+        log('T1: compute ' + stale1 + '+1=' + (stale1 + 1) + ', write → counter=' + (stale1 + 1), 'bad');
+        setCounter(stale1 + 1, 'bad');
+        await delay(250);
+
+        log('T2: compute ' + stale2 + '+1=' + (stale2 + 1) + ', write → counter=' + (stale2 + 1) + ' ← T1\'s write lost!', 'bad');
+        setCounter(stale2 + 1, 'bad');
+        await delay(300);
+        setThread(1, 'idle'); setThread(2, 'idle');
+      }
+      log('✗ Final counter: ' + counter + ' — wrong! (expected 10)', 'bad');
+      document.getElementById('demoCounter').className = 'counter-box bad';
+      document.getElementById('demoExplain').textContent =
+        'Without a lock, both threads can read the same stale value simultaneously, then both write back "stale + 1" — so one increment is silently lost each iteration. This is a race condition: the result is non-deterministic and wrong. Mutex locks fix this by enforcing exclusive access.';
+    }
+
+    document.getElementById('btnSafe').disabled = false;
+    document.getElementById('btnUnsafe').disabled = false;
+  }
+
+  // Initialize
+  renderNotebooksGrid();
+</script>
+>>>>>>> d7095b9 (your message)
 </body>
 </html>
