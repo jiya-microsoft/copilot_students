@@ -13,19 +13,22 @@
 
 :root {
   --bg: #ffffff;
-  --panel: #f5f5f5;
-  --panel-2: #eeeeee;
-  --panel-3: #e8e8e8;
-  --border: #d0d0d0;
-  --border-soft: #e0e0e0;
-  --text: #1a1a1a;
-  --muted: #666666;
-  --muted-2: #999999;
+  --panel: #f7f7f8;
+  --panel-2: #efeff1;
+  --panel-3: #e6e6e9;
+  --border: #e3e3e7;
+  --border-soft: #ededf0;
+  --text: #18181b;
+  --muted: #6b7280;
+  --muted-2: #a1a1aa;
   --blue: #3b7cff;
   --blue-2: #0b245c;
   --green: #11bf42;
   --orange: #ff7a00;
   --red: #ff4b4b;
+  --shadow-sm: 0 1px 2px rgba(16, 18, 27, 0.04);
+  --shadow-md: 0 4px 16px rgba(16, 18, 27, 0.07);
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body {
@@ -34,6 +37,9 @@ body {
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.006em;
 }
 
 button, input {
@@ -351,13 +357,17 @@ button, input {
 
 .app-shell {
   display: grid;
-  grid-template-columns: 68px 300px minmax(720px, 1fr) 452px;
+  grid-template-columns: 68px 300px minmax(420px, 1fr) 316px;
   height: 100vh;
   background: var(--bg);
 }
 
 .app-shell.full {
-  grid-template-columns: 68px 300px minmax(720px, 1fr);
+  grid-template-columns: 68px 300px minmax(420px, 1fr);
+}
+
+.app-shell.full .copilot-panel {
+  display: none;
 }
 
 /* Icon rail */
@@ -485,7 +495,7 @@ button, input {
 }
 
 .main-content {
-  max-width: 1010px;
+  max-width: 780px;
   margin: 0 auto;
   padding: 42px 30px 80px;
 }
@@ -494,6 +504,7 @@ button, input {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--border-soft);
   margin-bottom: 30px;
@@ -532,6 +543,7 @@ button, input {
   border-radius: 16px;
   padding: 27px;
   margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
 }
 
 .source-tags {
@@ -705,7 +717,7 @@ button, input {
 
 .material-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 18px;
 }
 
@@ -979,6 +991,9 @@ button, input {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  height: 100vh;
+  overflow: hidden;
+  border-left: 1px solid var(--border-soft);
   background: var(--panel);
 }
 
@@ -1064,6 +1079,222 @@ button, input {
   color: var(--muted-2);
   font-size: 14px;
   padding-bottom: 18px;
+}
+
+/* ── Chat panel ───────────────────────────────── */
+.chat-head {
+  height: 48px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.chat-mode {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  padding: 5px 8px;
+  border-radius: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  transition: background 0.18s var(--ease);
+}
+
+.chat-mode:hover { background: var(--panel-2); }
+.chat-mode .caret { font-size: 10px; color: var(--muted); }
+
+.chat-shield {
+  color: var(--muted-2);
+  font-size: 13px;
+  padding: 0 2px;
+}
+
+.chat-head-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chat-icon-btn {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1;
+  transition: all 0.18s var(--ease);
+}
+
+.chat-icon-btn:hover { background: var(--panel-2); color: var(--text); }
+
+.chat-icon-btn.primary {
+  background: var(--blue);
+  color: white;
+}
+
+.chat-icon-btn.primary:hover { background: #2f6ae8; color: white; }
+
+/* Conversation log — hidden until the first message */
+.chat-log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 16px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.copilot-panel.empty .chat-log { display: none; }
+
+.chat-msg {
+  max-width: 92%;
+  font-size: 13.5px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  animation: chatIn 0.26s var(--ease) both;
+}
+
+.chat-msg.bot {
+  align-self: stretch;
+  color: var(--text);
+}
+
+.chat-msg.user {
+  align-self: flex-end;
+  background: var(--blue);
+  color: white;
+  padding: 9px 13px;
+  border-radius: 14px 14px 4px 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.chat-msg.typing { color: var(--muted-2); }
+
+@keyframes chatIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Centred stage: title + compose bubble + starter queries */
+.chat-stage {
+  flex: 0 0 auto;
+  padding: 8px 16px 16px;
+}
+
+.copilot-panel.empty .chat-stage { padding-top: 48px; }
+
+.chat-title {
+  display: none;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-align: center;
+  color: var(--text);
+  margin-bottom: 26px;
+}
+
+.copilot-panel.empty .chat-title { display: block; }
+
+.chat-filler { display: none; }
+.copilot-panel.empty .chat-filler { display: block; flex: 1; }
+
+.chat-input-box {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 12px 8px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+
+.chat-input-box:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 124, 255, 0.1);
+}
+
+.chat-input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: none;
+  font-size: 14px;
+  color: var(--text);
+  cursor: text;
+  padding-bottom: 14px;
+}
+
+.chat-input::placeholder { color: var(--muted-2); }
+
+.chat-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.chat-tools .chat-send { margin-left: auto; }
+
+.chat-send {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: var(--blue);
+  color: white;
+  font-size: 13px;
+  transition: all 0.18s var(--ease);
+}
+
+.chat-send:hover { background: #2f6ae8; transform: translateY(-1px); }
+
+/* Starter query cards */
+.chat-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.copilot-panel:not(.empty) .chat-suggestions { display: none; }
+
+.chat-suggestion {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 13px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--text);
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.18s var(--ease);
+}
+
+.chat-suggestion:hover {
+  border-color: var(--blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.chat-disclaimer {
+  flex: 0 0 auto;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted-2);
+  padding: 0 16px 12px;
 }
 
 .help-bubble {
@@ -1356,7 +1587,7 @@ button, input {
 
   <!-- Notebook Page -->
   <div id="notebookPage" class="page">
-    <div class="app-shell full" id="appShell">
+    <div class="app-shell" id="appShell">
       <aside class="icon-rail">
         <div class="rail-icon active" onclick="togglePanel()">▣</div>
         <div class="rail-icon">▦</div>
@@ -1559,6 +1790,42 @@ Last-minute Tips...</pre>
           </section>
         </div>
       </main>
+
+      <aside class="copilot-panel empty" id="copilotPanel">
+        <div class="chat-head">
+          <button class="chat-mode">Chat <span class="caret">▾</span></button>
+          <span class="chat-shield" title="Protected">⛉</span>
+          <div class="chat-head-actions">
+            <button class="chat-icon-btn primary" onclick="newChat()" title="New chat">✎</button>
+            <button class="chat-icon-btn" onclick="togglePanel()" title="Hide chat">···</button>
+          </div>
+        </div>
+
+        <div class="chat-log" id="chatLog"></div>
+
+        <div class="chat-stage">
+          <h2 class="chat-title">Let's connect the dots</h2>
+
+          <div class="chat-input-box">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Message Copilot" onkeydown="if(event.key==='Enter') sendChat()" />
+            <div class="chat-tools">
+              <button class="chat-icon-btn" title="Add context">+</button>
+              <button class="chat-icon-btn" title="Sources">◍</button>
+              <button class="chat-send" onclick="sendChat()" title="Send">↑</button>
+            </div>
+          </div>
+
+          <div class="chat-suggestions">
+            <button class="chat-suggestion" onclick="askCopilot(this.textContent)">Explain race conditions using my lecture notes</button>
+            <button class="chat-suggestion" onclick="askCopilot(this.textContent)">Summarize what's due this week across my courses</button>
+            <button class="chat-suggestion" onclick="askCopilot(this.textContent)">Quiz me on semaphores before the midterm</button>
+          </div>
+        </div>
+
+        <div class="chat-filler"></div>
+
+        <div class="chat-disclaimer">AI-generated content may be incorrect</div>
+      </aside>
     </div>
   </div>
 
@@ -1693,6 +1960,7 @@ Last-minute Tips...</pre>
       }
 
       document.getElementById('notebookTitle').textContent = id;
+      newChat();
       document.getElementById('overviewPage').classList.remove('active');
       document.getElementById('notebookPage').classList.add('active');
     }
@@ -1709,6 +1977,68 @@ Last-minute Tips...</pre>
     function togglePanel() {
       const appShell = document.getElementById('appShell');
       appShell.classList.toggle('full');
+    }
+
+    // Chat panel
+    const chatReplies = [
+      { match: ['race', 'concurren', 'thread', 'lock', 'mutex'],
+        reply: "A race condition happens when two threads touch the same shared state and the result depends on who wins. The counter demo in your Overview shows it: without a lock, both threads read the same value, add 1, and write it back — one increment vanishes.\n\nA mutex fixes it by making read-modify-write atomic. Click ⊙ View on the Concurrent Systems card to run it both ways." },
+      { match: ['semaphore'],
+        reply: "A semaphore is a counter with two atomic operations: P (wait) decrements and blocks at 0, V (signal) increments and wakes a waiter.\n\nQuick check — a mutex is just a semaphore initialized to what value, and why does that make it binary?" },
+      { match: ['due', 'deadline', 'this week', 'upcoming'],
+        reply: "For 18-213 this week:\n• Homework packet — due tomorrow\n• Midterm review session — today at 5pm\n• Regrade request for quiz 1 — Thursday night\n• Programming homework — Sunday\n\nThe midterm itself is next Wednesday." },
+      { match: ['grade', 'average', 'exam 1', 'what if', 'gpa'],
+        reply: "You're at 85.2% (B). Exam 1 is the weak spot at C+ — that's what's pulling the average down.\n\nUse the What-if? ✏️ button on the Grades card to type in a hypothetical Final score and see where you'd land." },
+      { match: ['midterm', 'study', 'review', 'prepare'],
+        reply: "Based on your quiz 1 results, focus on synchronization primitives and hardware parallelism — those are the two areas you lost the most points on.\n\nStart with the interactive concurrency demo, then work the practice questions in the tailored study guide card." },
+      { match: ['malloc', 'memory', 'heap'],
+        reply: "Your 15-malloc-basic reference in the sidebar covers this. The key idea: an implicit free list walks every block to find a fit, while an explicit free list only links free blocks — much faster allocation, at the cost of storing pointers inside free blocks." },
+    ];
+
+    function copilotReply(text) {
+      const q = text.toLowerCase();
+      const hit = chatReplies.find(r => r.match.some(m => q.includes(m)));
+      if (hit) return hit.reply;
+      return "I don't have that in your notes yet. Try asking about concurrency, semaphores, what's due this week, or your grade breakdown.";
+    }
+
+    function appendChat(text, who) {
+      const log = document.getElementById('chatLog');
+      const msg = document.createElement('div');
+      msg.className = 'chat-msg ' + who;
+      msg.textContent = text;
+      log.appendChild(msg);
+      log.scrollTop = log.scrollHeight;
+      return msg;
+    }
+
+    function newChat() {
+      document.getElementById('chatLog').innerHTML = '';
+      document.getElementById('chatInput').value = '';
+      document.getElementById('copilotPanel').classList.add('empty');
+    }
+
+    function askCopilot(text) {
+      if (!text || !text.trim()) return;
+      // First message swaps the centred stage for the conversation view
+      document.getElementById('copilotPanel').classList.remove('empty');
+      appendChat(text.trim(), 'user');
+
+      const typing = appendChat('typing…', 'bot');
+      typing.classList.add('typing');
+
+      setTimeout(() => {
+        typing.remove();
+        appendChat(copilotReply(text), 'bot');
+      }, 550);
+    }
+
+    function sendChat() {
+      const input = document.getElementById('chatInput');
+      const text = input.value;
+      if (!text.trim()) return;
+      input.value = '';
+      askCopilot(text);
     }
 
     function letterGrade(s) {
